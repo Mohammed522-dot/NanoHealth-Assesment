@@ -7,9 +7,9 @@ import 'package:meta/meta.dart';
 abstract class AuthEvent {}
 
 class Login extends AuthEvent {
-  final String email;
+  final String userName;
   final String password;
 
-  Login(this.email, this.password);
+  Login(this.userName, this.password);
 }
 

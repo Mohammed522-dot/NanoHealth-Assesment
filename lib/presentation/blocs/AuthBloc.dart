@@ -12,14 +12,14 @@ import 'package:nano_health_assesment/presentation/blocs/AuthState.dart';
     AuthBloc() : super(AuthInitial()) {
       on<AuthEvent>((event, emit) async {
         if (event is Login) {
-          if (event.email.isEmpty || event.password.isEmpty) {
+          if (event.userName.isEmpty || event.password.isEmpty) {
             emit(AuthError());
           } else {
             emit(AuthLoading());
             Response response = await post(
-              Uri.parse('http://vidamed-001-site4.atempurl.com/Login/users/'),
+              Uri.parse('https://fakestoreapi.com/auth/login'),
               body: {
-                'email' : event.email,
+                'username' : event.userName,
                 'password': event.password
               }
           );

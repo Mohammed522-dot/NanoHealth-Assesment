@@ -1,4 +1,16 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nano_health_assesment/color.dart';
+import 'package:nano_health_assesment/presentation/blocs/AuthState.dart';
+import 'package:nano_health_assesment/presentation/pages/root_app.dart';
+import 'package:nano_health_assesment/presentation/widgets/custom_button.dart';
+import 'package:nano_health_assesment/presentation/widgets/custom_input.dart';
+import 'package:nano_health_assesment/presentation/widgets/page_handeling.dart';
+import 'package:nano_health_assesment/presentation/widgets/page_header.dart';
+
+import '../blocs/AuthBloc.dart';
+import '../widgets/loding_widget.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -7,141 +19,126 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late TextEditingController userName;
+  late TextEditingController password;
+  final _loginFormKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+
+    userName = TextEditingController();
+    password = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 400,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/icons/logo.png'),
-                          fit: BoxFit.fill
-                      )
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned(
-                        left: 30,
-                        width: 80,
-                        height: 200,
-                        child:  Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/images/light-1.png')
-                              )
+    Size size = MediaQuery.of(context).size;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AuthBloc())
+      ],
+      child: BlocConsumer<AuthBloc,AuthState>(
+          listener: (context, state) {
+            if (state is AuthError) {
+              print("error");
+            } else if (state is AuthLoaded) {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> RootApp()));
+            }
+            else if (state is ResponseError) {
+              // ResponseErrorLayout();
+              print("error");
+            }
+          },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return LoadingWidget(child: buildInitialInput());
+          } else {
+            return buildInitialInput();
+          }
+        },
+      ),
+    );
+  }
+  Widget buildInitialInput() =>
+      SafeArea(
+        child: Scaffold(
+          backgroundColor: primary2,
+          body: Column(
+            children: [
+              const PageHeader(),
+              const PageHeading(title: 'Log In',),
+
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+
+                ),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _loginFormKey,
+                    child: Column(
+                      children: [
+
+                        CustomInputField(
+                            labelText: 'Email',
+                            textController: userName,
+                            validator: (textValue) {
+                              if(textValue == null || textValue.isEmpty) {
+                                return 'Email is required!';
+                              }
+                              // if(!EmailValidator.validate(textValue)) {
+                              //   return 'Please enter a valid email';
+                              // }
+                              return null;
+                            }
+                        ),
+                        const SizedBox(height: 16,),
+                        CustomInputField(
+                          labelText: 'Password',
+                          textController: password,
+                          obscureText: true,
+                          suffixIcon: true,
+                          validator: (textValue) {
+                            if(textValue == null || textValue.isEmpty) {
+                              return 'Password is required!';
+                            }
+                            return null;
+                          },
+                        ),
+
+
+                        const SizedBox(height: 20,),
+                        CustomFormButton(
+                          userName: userName,
+                          password: password,
+                          innerText: 'Continue', onPressed: _handleLoginUser,),
+                        const SizedBox(height: 18,),
+                        SizedBox(
+                          width:  0.8,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('NEED HELPE?', style: TextStyle(fontSize: 13, color: Color(0xff939393), fontWeight: FontWeight.bold),),
+
+                            ],
                           ),
                         ),
-                      ),
-                      Positioned(
-                        left: 140,
-                        width: 80,
-                        height: 150,
-                        child:  Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/images/light-2.png')
-                              )
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 40,
-                        top: 40,
-                        width: 80,
-                        height: 150,
-                        child:  Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/images/clock.png')
-                              )
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 50),
-                          child: Center(
-                            child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
-                          ),
-                        )),
-                    ],
+
+                      ],
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(30.0),
-                  child: Column(
-                    children: <Widget>[
-                       Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromRGBO(143, 148, 251, .2),
-                                  blurRadius: 20.0,
-                                  offset: Offset(0, 10)
-                              )
-                            ]
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey))
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Email or Phone number",
-                                    hintStyle: TextStyle(color: Colors.grey[400])
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(color: Colors.grey[400])
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 30,),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(143, 148, 251, 1),
-                                  Color.fromRGBO(143, 148, 251, .6),
-                                ]
-                            )
-                        ),
-                        child: Center(
-                          child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                        ),
-                      ),
-                      SizedBox(height: 70,),
-                      Text("Forgot Password?", style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1)),),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
-        )
-    );
+        ),
+      );
+  void _handleLoginUser() {
+    // login user
+    if (_loginFormKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Submitting data..')),
+      );
+    }
   }
 }
