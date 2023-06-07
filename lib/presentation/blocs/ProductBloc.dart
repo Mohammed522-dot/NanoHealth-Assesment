@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart';
-import 'package:nano_health_assesment/data/model/Products.dart';
 import 'package:nano_health_assesment/presentation/blocs/ProductsState.dart';
+import '../../data/model/Product.dart';
 import 'ProductsEvent.dart';
 
 class ProductBloc extends Bloc<ProductsEvent, ProductsState> {
@@ -11,13 +11,13 @@ class ProductBloc extends Bloc<ProductsEvent, ProductsState> {
       if (event is GetProducts) {
           emit(ProductsLoading());
           Response response = await get(
-              Uri.parse('http://vidamed-001-site4.atempurl.com/Materials/all'),
+              Uri.parse('https://fakestoreapi.com/products'),
 
           );
           if(response.statusCode == 200){
             final json = jsonDecode(response.body);
             // final parsed = jsonDecode(response.body).cast<String, dynamic>();
-            var data = List<Products>.from(json['data'].map((x) => Products.fromJson(x)));
+            var data = List<Product>.from(json.map((x) => Product.fromJson(x)));
             print(data);
             emit(ProductsLoaded(products: data));
           }

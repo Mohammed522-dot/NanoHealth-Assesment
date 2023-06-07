@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:nano_health_assesment/data/model/Products.dart';
+
+import '../../data/model/Product.dart';
 
 
 @immutable
@@ -11,7 +12,7 @@ class ProductsInitial extends ProductsState {}
 class ProductsLoading extends ProductsState {}
 
 class ProductsLoaded extends ProductsState {
-  final List<Products> products;
+  final List<Product> products;
   ProductsLoaded({ required this.products,});
 }
 class ProductsError extends ProductsState {}

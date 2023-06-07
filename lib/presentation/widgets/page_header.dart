@@ -5,11 +5,12 @@ class PageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       width: double.infinity,
-      height: size.height * 0.3,
-      child: Image.asset('assets/icons/logo.png'),
+
+      child: Image.asset('assets/logo.png'),
     );
   }
 }

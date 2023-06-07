@@ -69,7 +69,7 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
       },
       {
         "icon" : "assets/icons/play.svg",
-        "active_icon" : "assets/icons/play.svg",
+        "active_icon" : "assets/icons/Like.svg",
         "page" : Container(),
       },
 
@@ -125,7 +125,7 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
               children: List.generate(barItems.length,
                       (index) =>  Column(
                     children: [
-                      BottomBarItem(barItems[index]["icon"],barItems[index], isActive: activeTab == index, activeColor: primary,
+                      BottomBarItem(barItems[index]["icon"], isActive: activeTab == index, activeColor: primary,
                         onTap: (){
                           onPageChanged(index);
                         },

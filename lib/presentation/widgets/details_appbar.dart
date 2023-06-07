@@ -3,10 +3,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nano_health_assesment/data/model/Product.dart';
 
-class DetailAppBar extends StatelessWidget {
-  const DetailAppBar({Key? key}) : super(key: key);
-
+class DetailAppBar extends StatefulWidget {
+  const DetailAppBar({Key? key,required this.product}) : super(key: key);
+  final Product product;
+  @override
+  State<DetailAppBar> createState() => _DetailAppBarState();
+}
+class _DetailAppBarState extends State<DetailAppBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -18,8 +23,8 @@ class DetailAppBar extends StatelessWidget {
       pinned: true,
       stretch: true,
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.asset(
-          'assets/images/food_picture.png',
+        background: Image.network(
+          widget.product.image,
           fit: BoxFit.cover,
         ),
         stretchModes: const [

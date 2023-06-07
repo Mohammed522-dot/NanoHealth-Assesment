@@ -1,18 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nano_health_assesment/data/model/Product.dart';
+import 'package:nano_health_assesment/presentation/widgets/custom_button.dart';
 import 'package:nano_health_assesment/presentation/widgets/details_appbar.dart';
+import 'package:nano_health_assesment/presentation/widgets/order_button.dart';
 
 import '../../color.dart';
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({Key? key}) : super(key: key);
-
+class DetailsPage extends StatefulWidget {
+  const DetailsPage({Key? key,required this.product}) : super(key: key);
+  final Product product;
   @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+class _DetailsPageState extends State<DetailsPage> {
+@override
   Widget build(BuildContext context) {
+  Widget star(int active) {
+    final children = <Widget>[];
+    for (var i = 1; i <= 5; i++) {
+      if (active <= 5 && active >= 0) {
+        children.add(
+          new Padding(
+            padding: const EdgeInsets.only(right: 2),
+            child: Image.asset(
+              i <= active
+                  ? 'assets/icons/star_active.png'
+                  : 'assets/icons/star.png',
+              width: 12,
+            ),
+          ),
+        );
+      }
+    }
+    return new Row(
+      children: children,
+    );
+  }
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          const DetailAppBar(),
+           DetailAppBar(product: widget.product,),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -41,13 +69,13 @@ class DetailsPage extends StatelessWidget {
                         children: [
                           Container(
                             height: 32.0,
-                            width: 32.0,
+                            width: 10.0,
                             margin: const EdgeInsets.only(right: 8.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: const DecorationImage(
                                 image: AssetImage(
-                                    'assets/images/profile_image.jpg'),
+                                    'assets/icons/Vector1.svg'),
                                 fit: BoxFit.cover,
                               ),
                               boxShadow: [
@@ -59,29 +87,23 @@ class DetailsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Text(
-                            'Elena Shelby',
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
+
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             height: 32.0,
-                            width: 32.0,
+                            width: 5.0,
                             alignment: Alignment.center,
                             margin: const EdgeInsets.only(right: 8.0),
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: primary,
                             ),
-                            child: SvgPicture.asset('assets/icons/Heart.svg'),
+
                           ),
-                          Text(
-                            '273 Likes',
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
+                          OrderButton(innerText: "Order Now", onPressed: (){}, )
                         ],
                       ),
                     ],
@@ -94,27 +116,39 @@ class DetailsPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8.0),
-                  Text(
-                    'Your recipe has been uploaded, you can see it on your profile. Your recipe has been uploaded, you can see it on your',
+                  Text(widget.product.description,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(color: Colors.black45),
                   ),
+                  const SizedBox(height: 8.0),
+                 Card(
+                   color: Colors.grey,
+                   child: Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Text(
+                           'Review',
+                           style: Theme.of(context).textTheme.titleMedium,
+                         ),
+                         Text(
+                           '(${widget.product.rating.count})',
+                           style: Theme.of(context).textTheme.titleMedium,
+                         ),
+                       ]
+                   ),
+                 ),
 
-                  Text(
-                    'Ingredients',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16.0),
-                  _buildIngredientItem(context, '4 Eggs'),
-                  _buildIngredientItem(context, '1/2 Butter'),
-                  _buildIngredientItem(context, '1/2 Sugar'),
-
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Steps',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .end,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 4,
+                      ),
+                      star(widget.product.rating.rate.toInt()),
+                    ],
                   ),
                   const SizedBox(height: 16.0),
                   Row(
@@ -139,23 +173,7 @@ class DetailsPage extends StatelessWidget {
                               fontWeight: FontWeight.w700),
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Your recipe has been uploaded, you can see it on your profile. Your recipe has been uploaded, you can see it on your',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            const SizedBox(height: 16.0),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(
-                                'https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
                     ],
                   ),
                   const SizedBox(height: 32.0),
@@ -168,31 +186,5 @@ class DetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildIngredientItem(
-      BuildContext context,
-      String title,
-      ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        children: [
-          Container(
-            height: 24.0,
-            width: 24.0,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(right: 8.0),
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xFFE3FFF8),
-            ),
-            child: SvgPicture.asset('assets/icons/check.svg'),
-          ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ],
-      ),
-    );
-  }
+
 }

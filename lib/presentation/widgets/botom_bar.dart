@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nano_health_assesment/color.dart';
 
 class BottomBarItem extends StatelessWidget {
-  const BottomBarItem(this.icon, this.title, {this.onTap, this.color = Colors.grey, this.activeColor = primary, this.isActive = false, this.isNotified = false});
+  const BottomBarItem(this.icon,  {this.onTap, this.color = Colors.grey, this.activeColor = primary, this.isActive = false, this.isNotified = false});
   final String icon;
-  final String title;
+
   final Color color;
   final Color activeColor;
   final bool isNotified;
@@ -37,9 +37,9 @@ class BottomBarItem extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.asset(icon, color: isActive ? activeColor : color, width: 23, height: 23,),
-            Text(title,style: TextStyle(
-              color: isActive ? activeColor : color,
-            ),)
+            // Text(title,style: TextStyle(
+            //   color: isActive ? activeColor : color,
+            // ),)
           ],
         ),
       ),

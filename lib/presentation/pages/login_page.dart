@@ -107,21 +107,17 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
 
-                        const SizedBox(height: 20,),
+                        const SizedBox(height: 30,),
                         CustomFormButton(
                           userName: userName,
                           password: password,
                           innerText: 'Continue', onPressed: _handleLoginUser,),
-                        const SizedBox(height: 18,),
+                        const SizedBox(height: 10,),
                         SizedBox(
-                          width:  0.8,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('NEED HELPE?', style: TextStyle(fontSize: 13, color: Color(0xff939393), fontWeight: FontWeight.bold),),
 
-                            ],
-                          ),
+                              child: const Center(child:Text('NEED HELPE?', style: TextStyle(fontSize: 13, color: Color(0xff939393), fontWeight: FontWeight.bold),) )
+
+
                         ),
 
                       ],

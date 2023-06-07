@@ -1,6 +1,9 @@
+
+
+import 'package:nano_health_assesment/data/model/Reting.dart';
 import 'package:nano_health_assesment/data/model/Reting.dart';
 
-class Products {
+class Product {
   final int id;
   final String title;
   final double price;
@@ -10,7 +13,7 @@ class Products {
   final Rating rating;
 
 
-  Products({
+  Product({
     required this.id,
     required this.title,
     required this.price,
@@ -19,15 +22,15 @@ class Products {
     required this.image,
     required this.rating
   });
-  factory Products.fromJson(Map<String, dynamic> json) {
-    return Products(
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
       id: json['id'] as int,
       title: json['title'] as String,
-      price: json['price'] as double,
+      price: json['price']== null ? 0.0 : json['price'].toDouble(),
       description: json['description'] as String,
       category: json['category'] as String,
       image: json['image'] as String,
-      rating: json["rating"] as Rating,
+      rating:  Rating.fromJson(json['rating'])
 
     );
   }
