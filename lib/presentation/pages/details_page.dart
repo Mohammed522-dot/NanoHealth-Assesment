@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nano_health_assesment/data/model/Product.dart';
-import 'package:nano_health_assesment/presentation/widgets/custom_button.dart';
-import 'package:nano_health_assesment/presentation/widgets/details_appbar.dart';
-import 'package:nano_health_assesment/presentation/widgets/order_button.dart';
+import 'dart:ui';
 
-import '../../color.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nano_health_assesment/domain/model/product.dart';
+
+
+import '../../constant/color.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({Key? key,required this.product}) : super(key: key);
@@ -14,171 +16,85 @@ class DetailsPage extends StatefulWidget {
   State<DetailsPage> createState() => _DetailsPageState();
 }
 class _DetailsPageState extends State<DetailsPage> {
-@override
-  Widget build(BuildContext context) {
-  Widget star(int active) {
-    final children = <Widget>[];
-    for (var i = 1; i <= 5; i++) {
-      if (active <= 5 && active >= 0) {
-        children.add(
-          new Padding(
-            padding: const EdgeInsets.only(right: 2),
-            child: Image.asset(
-              i <= active
-                  ? 'assets/icons/star_active.png'
-                  : 'assets/icons/star.png',
-              width: 12,
+
+
+  Widget buildSliverAppBar() {
+    return SliverAppBar(
+      systemOverlayStyle:
+      const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+      expandedHeight: 275.0,
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+
+      flexibleSpace: FlexibleSpaceBar(
+        background: Image.network(
+          widget.product.image,
+          fit: BoxFit.cover,
+        ),
+        stretchModes: const [
+          StretchMode.blurBackground,
+          StretchMode.zoomBackground,
+        ],
+      ),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(0.0),
+        child: Container(
+          height: 32.0,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32.0),
+              topRight: Radius.circular(32.0),
             ),
           ),
-        );
-      }
-    }
-    return new Row(
-      children: children,
-    );
-  }
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-           DetailAppBar(product: widget.product,),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          child: Container(
+            width: 40.0,
+            height: 5.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(100.0),
+            ),
+          ),
+        ),
+      ),
 
-                  const SizedBox(height: 8.0),
-                  DefaultTextStyle(
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.black),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 8.0),
-
-                      ],
+      leading: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 40,
+              width: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Center(child: Icon(Icons.arrow_back_rounded,color: Colors.black,)),
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 32.0,
-                            width: 10.0,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                    'assets/icons/Vector1.svg'),
-                                fit: BoxFit.cover,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 4.0,
-                                  color: Colors.black.withOpacity(0.25),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 32.0,
-                            width: 5.0,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: primary,
-                            ),
-
-                          ),
-                          OrderButton(innerText: "Order Now", onPressed: (){}, )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Divider(color: Colors.white, height: 1.0),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(widget.product.description,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.black45),
-                  ),
-                  const SizedBox(height: 8.0),
-                 Card(
-                   color: Colors.grey,
-                   child: Row(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text(
-                           'Review',
-                           style: Theme.of(context).textTheme.titleMedium,
-                         ),
-                         Text(
-                           '(${widget.product.rating.count})',
-                           style: Theme.of(context).textTheme.titleMedium,
-                         ),
-                       ]
-                   ),
-                 ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .end,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 4,
-                      ),
-                      star(widget.product.rating.rate.toInt()),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 24.0,
-                        width: 24.0,
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(right: 16.0),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-
-                        ),
-                        child: Text(
-                          '1',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  const SizedBox(height: 32.0),
-                ],
+                    backgroundColor: appBgColor,
+                    elevation: 20),
               ),
+            ),
+          ),
+          SizedBox(width: 350),
+          Spacer(),
+          SizedBox(
+            height: 40,
+            width: 50,
+            child: ElevatedButton(
+              onPressed: () {
+              },
+              child: const Center(child: Icon(Icons.more_vert,color: Colors.black,)),
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: appBgColor,
+                  elevation: 20),
             ),
           ),
         ],
@@ -186,5 +102,151 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: appBgColor,
+      body: CustomScrollView(
+        slivers: [
+          buildSliverAppBar(),
+          Container(
+            child: SliverList(
+                delegate: SliverChildListDelegate([
+                  Container(
+                    child: Column(
+                      children: [
+                        const Column(
+                          children: [
+                            Icon(Icons.keyboard_arrow_up_outlined,color: primary,)
+                            //image: Icon(Icons.arrow_drop_down_circle),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 60,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Image.asset(
+                                    'assets/icons/upload.png',
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      backgroundColor: appBgColor,
+                                      elevation: 20),
+                                ),
+                              ),
 
+                              Spacer(),
+                              Container(
+                                width: 250,
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: const Text('Order Now'),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      backgroundColor: primary,
+                                      padding: const EdgeInsets.fromLTRB(10, 0, 15, 0)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Description',
+                                style: TextStyle(
+                                    color: Colors.black38, fontStyle: FontStyle.italic),
+                                textAlign: TextAlign.end,
+                              ),
+                              Text(
+                                widget.product.description,
+                                style: const TextStyle(
+                                    color: Colors.black38, fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            color: Colors.grey[400],
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Reviews (${widget.product.rating.count})'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${widget.product.rating.rate}',
+                                        style: const TextStyle(
+                                            fontSize: 20, fontWeight: FontWeight.bold),
+                                      ),
+                                      RatingBar.builder(
+                                        initialRating: widget.product.rating.rate,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemSize: 40,
+                                        itemCount: 5,
+                                        itemPadding:
+                                        const EdgeInsets.symmetric(horizontal: 4.0),
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 300,
+                  )
+                ])),
+          )
+        ],
+      ),
+    );
+  }
 }

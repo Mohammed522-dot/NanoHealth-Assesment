@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nano_health_assesment/data/model/Product.dart';
+import 'package:nano_health_assesment/domain/model/product.dart';
 
 class DetailAppBar extends StatefulWidget {
   const DetailAppBar({Key? key,required this.product}) : super(key: key);

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nano_health_assesment/color.dart';
+import 'package:nano_health_assesment/constant/color.dart';
 
 class BottomBarItem extends StatelessWidget {
   const BottomBarItem(this.icon,  {this.onTap, this.color = Colors.grey, this.activeColor = primary, this.isActive = false, this.isNotified = false});

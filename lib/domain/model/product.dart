@@ -1,7 +1,6 @@
 
 
-import 'package:nano_health_assesment/data/model/Reting.dart';
-import 'package:nano_health_assesment/data/model/Reting.dart';
+import 'package:nano_health_assesment/domain/model/reting.dart';
 
 class Product {
   final int id;

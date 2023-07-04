@@ -31,13 +31,15 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^4.0.1
+  flutter_rating_bar: ^4.0.1
   #bloc for state management
   bloc: ^8.1.0
   flutter_bloc: ^8.1.1
+
   #value equality
   equatable: ^2.0.5
   #  connectivity: ^0.4.3+7
-  http: ^0.13.0
+  dio:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

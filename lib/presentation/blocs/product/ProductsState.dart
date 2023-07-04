@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:nano_health_assesment/domain/model/product.dart';
 
-import '../../data/model/Product.dart';
 
 
 @immutable

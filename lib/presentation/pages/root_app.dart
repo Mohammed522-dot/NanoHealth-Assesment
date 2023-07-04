@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nano_health_assesment/color.dart';
+import 'package:nano_health_assesment/constant/color.dart';
 import 'package:nano_health_assesment/presentation/pages/home_page.dart';
 
 import '../widgets/botom_bar.dart';
@@ -58,24 +58,23 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     barItems = [
       {
-        "icon" : "assets/icons/home.svg",
-        "active_icon" : "assets/icons/home.svg",
+        "icon" : "assets/icons/list.svg",
+        "active_icon" : "assets/icons/list.svg",
         "page" : const HomePage(),
       },
       {
-        "icon" : "assets/icons/search.svg",
-        "active_icon" : "assets/icons/search.svg",
+        "icon" : "assets/icons/shop.svg",
+        "active_icon" : "assets/icons/shop.svg",
         "page" : Container(),
       },
       {
-        "icon" : "assets/icons/play.svg",
-        "active_icon" : "assets/icons/Like.svg",
+        "icon" : "assets/icons/like.svg",
+        "active_icon" : "assets/icons/like.svg",
         "page" : Container(),
       },
 
       {
         "icon" : "assets/icons/profile.svg",
-
         "active_icon" : "assets/icons/profile.svg",
         "page" : Container(),
 

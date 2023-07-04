@@ -8,12 +8,9 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthLoaded extends AuthState {
-  // final String username;
+  final String token;
   // final String error;
-  AuthLoaded(
-
-      // this.username,
-      );
+  AuthLoaded(this.token);
 }
 
 class AuthError extends AuthState {}

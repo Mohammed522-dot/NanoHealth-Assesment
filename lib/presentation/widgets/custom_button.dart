@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nano_health_assesment/color.dart';
-import 'package:nano_health_assesment/presentation/blocs/AuthBloc.dart';
-import 'package:nano_health_assesment/presentation/blocs/AuthEvent.dart';
+import 'package:nano_health_assesment/constant/color.dart';
+import 'package:nano_health_assesment/presentation/blocs/auth/AuthBloc.dart';
+import 'package:nano_health_assesment/presentation/blocs/auth/AuthEvent.dart';
 
 class CustomFormButton extends StatelessWidget {
   final String innerText;
@@ -23,8 +23,7 @@ class CustomFormButton extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: (){
-      BlocProvider.of<AuthBloc>(context)
-          .add(Login(userName.text, password.text));
+      BlocProvider.of<AuthBloc>(context).add(Login(userName.text, password.text));
     },
 
         child: Text(innerText, style: const TextStyle(color: Colors.white, fontSize: 20),),

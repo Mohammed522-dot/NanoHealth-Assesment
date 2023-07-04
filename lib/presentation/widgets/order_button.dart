@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nano_health_assesment/color.dart';
+import 'package:nano_health_assesment/constant/color.dart';
 
 class OrderButton extends StatelessWidget {
   final String innerText;
