@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Nano Health',
         debugShowCheckedModeBanner: false,
-        home: const RootApp()
+        home: const LoginPage()
       ),
     );
   }
